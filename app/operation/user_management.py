@@ -2,11 +2,12 @@ import hashlib
 import datetime
 from app.database import db
 from fastapi import HTTPException, status
-from app.models import Permission, Role, Usersignup, UserRole, Email_token, Usersignup
+from app.models import Permission, Role, Usersignup, Email_token, Usersignup
 import uuid
 import utils.email
 from app.authentication import generate_token
 from app.util import get_data, get_permission, commit_data, delete_data, check_role
+from sqlalchemy import text
 
 get_db = db.get_db
 module_name = "Usermanagement"
@@ -14,7 +15,13 @@ module_name = "Usermanagement"
 
 def create_users(user, db):
     hash_password = hashlib.md5(user.password.encode())
-    existuser = db.query(Usersignup).filter(Usersignup.email == user.email).first()
+    # ORM SQLAlchemy query
+    # existuser = db.query(Usersignup).filter(Usersignup.email == user.email).first()
+
+    # Raw SQLAlchemy query
+    existuser = db.execute(
+        text("SELECT id FROM users WHERE email = :email"), {"email": user.email}
+    ).first()
 
     if existuser:
         raise HTTPException(
@@ -24,19 +31,20 @@ def create_users(user, db):
     role_id = user.role_id.split(",")
 
     check_role(role_id, Role, db)
+    roles = db.query(Role).filter(Role.id.in_(role_id)).all()
     create_user = Usersignup(
         name=user.name,
         address=user.address,
         email=user.email,
         password=hash_password.hexdigest(),
-        role_id=user.role_id,
+        roles=roles,
     )
     commit_data(create_user, db)
 
-    # user_role table enter the data
-    for role in role_id:
-        user_role = UserRole(user_id=create_user.id, role_id=role)
-        commit_data(user_role, db)
+    # # user_role table enter the data
+    # for role in role_id:
+    #     user_role = UserRole(user_id=create_user.id, role_id=role)
+    #     commit_data(user_role, db)
     return create_user
 
 
@@ -58,22 +66,22 @@ def getuser_id(id, db):
     return user
 
 
-def user_role(new_role_id, old_role_id, user_id, db):
-    role_add = list(new_role_id.difference(old_role_id))
-    role_detete = list(old_role_id.difference(new_role_id))
+# def user_role(new_role_id, old_role_id, user_id, db):
+#     role_add = list(new_role_id.difference(old_role_id))
+#     role_detete = list(old_role_id.difference(new_role_id))
 
-    if role_add:
-        for role in role_add:
-            add_role = UserRole(user_id=user_id, role_id=role)
-            commit_data(add_role, db)
+#     if role_add:
+#         for role in role_add:
+#             add_role = UserRole(user_id=user_id, role_id=role)
+#             commit_data(add_role, db)
 
-    if role_detete:
-        for role in role_detete:
-            user_role = db.query(UserRole).filter(
-                UserRole.user_id == user_id, UserRole.role_id == role
-            )
-            user_role.delete(synchronize_session=False)
-            db.commit()
+#     if role_detete:
+#         for role in role_detete:
+#             user_role = db.query(UserRole).filter(
+#                 UserRole.user_id == user_id, UserRole.role_id == role
+#             )
+#             user_role.delete(synchronize_session=False)
+#             db.commit()
 
 
 def update_user(user_id, data, db):
@@ -90,11 +98,12 @@ def update_user(user_id, data, db):
     role_id = data.role_id.split(",")
     check_role(role_id, Role, db)
 
-    user_role(set(data.role_id.split(",")), set(user.role_id.split(",")), user_id, db)
+    # user_role(set(data.role_id.split(",")), set(user.role_id.split(",")), user_id, db)
 
     # item = {"role_id": data.role_id}
     if data.role_id:
-        user.role_id = data.role_id
+        roles = db.query(Role).filter(Role.id.in_(role_id)).all()
+        user.roles = roles
     if data.name:
         user.name = data.name
         # item.update({"name": data.name})
@@ -117,9 +126,9 @@ def remove(user_id, db):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"id {user_id} is not found"
         )
-    user_roles = db.query(UserRole).filter(UserRole.user_id == user_id)
+    # user_roles = db.query(UserRole).filter(UserRole.user_id == user_id)
     # user_role = user_roles.all()
-    delete_data(user_roles, db)
+    # delete_data(user_roles, db)
 
     delete_data(user, db)
     return {"detail": f"user id {user_id} is deleted"}
