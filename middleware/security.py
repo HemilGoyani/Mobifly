@@ -16,7 +16,6 @@ async def check_token_valid(request: Request, call_next):
         try:
             payload = jwt.decode(token, SECRET_KEY, algorithms=[
                                 SECURITY_ALGORITHM])
-
             if payload.get('exp') < time.time():
                 return JSONResponse(content={"detail": "Token expired"}, status_code=status.HTTP_403_FORBIDDEN)
         except:

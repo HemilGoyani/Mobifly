@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from middleware.security import check_token_valid
-from app.routers import user_management
+from app.routers import user_management, role, modules, brands, products
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
@@ -26,3 +26,7 @@ app.add_middleware(
 )
 
 app.include_router(user_management.router)
+app.include_router(role.router)
+app.include_router(modules.router)
+app.include_router(brands.router)
+app.include_router(products.router)

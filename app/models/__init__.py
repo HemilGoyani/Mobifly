@@ -98,5 +98,3 @@ class Email_token(Base):
     reset_code = Column(String(50), index=True)
     status = Column(Boolean, default=True)
     expired_in = Column(DateTime)
-
-    
