@@ -126,10 +126,9 @@ def remove(user_id, db):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail=f"id {user_id} is not found"
         )
-    # user_roles = db.query(UserRole).filter(UserRole.user_id == user_id)
-    # user_role = user_roles.all()
-    # delete_data(user_roles, db)
-
+    print("*" * 100)
+    roles = user.roles.all()
+    print(roles, "=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=")
     delete_data(user, db)
     return {"detail": f"user id {user_id} is deleted"}
 
@@ -254,7 +253,7 @@ def update_user_role_permission(user_id, role_id, data, db):
         raise HTTPException(
             status.HTTP_404_NOT_FOUND, detail=f"user id {user_id} not found"
         )
-    roles = user.role_id.split(",")
+    roles = [role.id for role in user.roles]
     if str(role_id) in roles:
 
         check_permission = db.query(Permission).filter(

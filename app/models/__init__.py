@@ -19,8 +19,12 @@ from sqlalchemy.types import Enum
 user_role_table = Table(
     "users_roles",
     Base.metadata,
-    Column("user_id", Integer, ForeignKey("users.id"), primary_key=True),
-    Column("role_id", Integer, ForeignKey("roles.id"), primary_key=True),
+    Column(
+        "user_id", Integer, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True
+    ),
+    Column(
+        "role_id", Integer, ForeignKey("roles.id", ondelete="CASCADE"), primary_key=True
+    ),
 )
 
 
@@ -33,7 +37,13 @@ class Usersignup(Base):
     email = Column(String, unique=True, index=True)
     password = Column(String, index=True)
 
-    roles = relationship("Role", secondary=user_role_table, back_populates="users")
+    roles = relationship(
+        "Role",
+        secondary=user_role_table,
+        cascade="all, delete",
+        back_populates="users",
+        passive_deletes=True,
+    )
     # user = relationship("UserRole", back_populates="user")
 
 
@@ -66,7 +76,10 @@ class Role(Base):
     active = Column(Boolean, default=True)
 
     users = relationship(
-        "Usersignup", secondary=user_role_table, back_populates="roles"
+        "Usersignup",
+        secondary=user_role_table,
+        back_populates="roles",
+        passive_deletes=True,
     )
     permissions = relationship("Permission", back_populates="roles")
 
