@@ -91,13 +91,22 @@ class Reqsignup(BaseModel):
         orm_mode = True
 
 
+class RoleSchema(BaseModel):
+    id: int
+    name: Optional[str]
+    active: Optional[bool]
+
+    class Config:
+        orm_mode = True
+
+
 class Getsignup(BaseModel):
     id: int
     name: Optional[str]
     address: Optional[str]
     email: Optional[str]
     password: Optional[str]
-    # role_id: Optional[str]
+    roles: List[RoleSchema] = []
 
     class Config:
         orm_mode = True

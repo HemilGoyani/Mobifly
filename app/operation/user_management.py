@@ -119,18 +119,19 @@ def update_user(user_id, data, db):
 
 
 def remove(user_id, db):
-    user = db.query(Usersignup).filter(Usersignup.id == user_id)
-    users = user.first()
+    user_obj = db.query(Usersignup).filter(Usersignup.id == user_id).first()
 
-    if not users:
+    if not user_obj:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail=f"id {user_id} is not found"
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"User ID {user_id} not found"
         )
-    print("*" * 100)
-    roles = user.roles.all()
-    print(roles, "=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=")
-    delete_data(user, db)
-    return {"detail": f"user id {user_id} is deleted"}
+    user_obj.roles.clear()
+    db.commit()
+
+    db.delete(user_obj)
+    db.commit()
+
+    return {"detail": f"User ID {user_id} is deleted"}
 
 
 def login(data, db):
