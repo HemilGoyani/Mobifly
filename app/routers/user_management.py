@@ -10,7 +10,7 @@ from app.models import AccessName
 get_db = db.get_db
 
 module_name = 'Usermanagement'
-router = APIRouter(prefix='/user_management', tags=['User Management'])
+router = APIRouter(prefix='/user_management', tags=['Users'])
 
 
 @router.post('/create_user', status_code=status.HTTP_201_CREATED, response_model=schemas.Getsignup)

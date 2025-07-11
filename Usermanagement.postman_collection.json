@@ -1,0 +1,597 @@
+{
+	"info": {
+		"_postman_id": "e265e194-1b13-49ba-a812-15881be7d858",
+		"name": "Usermanagement",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46618070"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Sign-UP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"kano kevadiya\",\r\n  \"address\": \"Surat\",\r\n  \"email\": \"kano@yopmail.com\",\r\n  \"password\": \"test@123\",\r\n  \"confirm_password\": \"test@123\",\r\n  \"role_id\":\"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/user_management/create_user/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"user_management",
+								"create_user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Sign-in",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"hemil@yopmail.com\",\r\n  \"password\": \"test@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/user_management/signin/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"user_management",
+								"signin",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTIyMTY5MTQsImVtYWlsIjoiaGVtaWxAeW9wbWFpbC5jb20ifQ.7PNzqkJi6gGUIpMWGtlUci--zL8W_b-sG1LZCh8Kve0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{localhost}}/user_management/2/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"user_management",
+								"2",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTIxNTYyNjMsImVtYWlsIjoiaGVtaWxAeW9wbWFpbC5jb20ifQ.UG-NJB3bJ9y26NX1f1K4fa_hDYQ2vlXsPVLzOPehXf4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{localhost}}/user_management/getall_users/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"user_management",
+								"getall_users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTIxMzMwMDUsImVtYWlsIjoiaGVtaWxAeW9wbWFpbC5jb20ifQ.E4RKSvGXuOy-hL1RG71C8ynpgHK9AmK0dYXW8qY5bDg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Hemil Goyani\",\r\n  \"address\": \"Surat\",\r\n  \"role_id\":\"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/user_management/1/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"user_management",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot email sent",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/user_management/sent_email/?user_id=1&email=hemil@yopmail.com",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"user_management",
+								"sent_email",
+								""
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "1"
+								},
+								{
+									"key": "email",
+									"value": "hemil@yopmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"reset_password_token\": \"9de2fe30-5e3c-11f0-9900-aa46d9caae80\",\r\n  \"new_password\": \"test@123\",\r\n  \"confirm_new_password\": \"test@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/user_management/reset_password/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"user_management",
+								"reset_password",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTIyMjk3MjEsImVtYWlsIjoiaGVtaWxAeW9wbWFpbC5jb20ifQ.RkylFIHZdiTddXM3O7FNqouwQPN9mk0uD6bjupc-we0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"oldpassword\": \"test@123\",\r\n  \"newpassword\": \"test@123\",\r\n  \"confirm_new_password\":\"test@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/user_management/change_password/1/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"user_management",
+								"change_password",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user permission",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/user_management/get_user_permission/1/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"user_management",
+								"get_user_permission",
+								"1",
+								""
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Users",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTIyMTY5MTQsImVtYWlsIjoiaGVtaWxAeW9wbWFpbC5jb20ifQ.7PNzqkJi6gGUIpMWGtlUci--zL8W_b-sG1LZCh8Kve0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localhost}}/user_management/user_delete/3/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"user_management",
+								"user_delete",
+								"3",
+								""
+							],
+							"query": [
+								{
+									"key": "user_id",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "role_id",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "Create Role",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"admin\",\r\n  \"active\": \"true\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/role/create/?name=admin&active=true",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"role",
+								"create",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "admin"
+								},
+								{
+									"key": "active",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Role",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/role/get_all/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"role",
+								"get_all",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Role Permission",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/role/get_role_permission/1/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"role",
+								"get_role_permission",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Roles",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/role/delete/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"role",
+								"delete",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "modules",
+			"item": [
+				{
+					"name": "Create Module",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/module/create/?module_name=Brands",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"module",
+								"create",
+								""
+							],
+							"query": [
+								{
+									"key": "module_name",
+									"value": "Brands"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Modules",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/module/getall/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"module",
+								"getall",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Modules",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{localhost}}/module/delete/3/",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"module",
+								"delete",
+								"3",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": []
+		},
+		{
+			"name": "Brands",
+			"item": []
+		},
+		{
+			"name": "Ollama Chat",
+			"item": [
+				{
+					"name": "Chat",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"prompt\": \"Tell me a joke\", \r\n    \"model\": \"mistral:latest\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/ollama/chat",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"ollama",
+								"chat"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Chat",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"prompt\": \"Tell me a joke\", \r\n    \"model\": \"mistral:latest\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localhost}}/ollama/chat",
+									"host": [
+										"{{localhost}}"
+									],
+									"path": [
+										"ollama",
+										"chat"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "date",
+									"value": "Fri, 11 Jul 2025 11:25:33 GMT"
+								},
+								{
+									"key": "server",
+									"value": "uvicorn"
+								},
+								{
+									"key": "content-type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		}
+	]
+}

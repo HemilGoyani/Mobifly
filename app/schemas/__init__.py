@@ -88,7 +88,7 @@ class Reqsignup(BaseModel):
         return confirm_password
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class RoleSchema(BaseModel):
@@ -97,7 +97,7 @@ class RoleSchema(BaseModel):
     active: Optional[bool]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Getsignup(BaseModel):
@@ -109,7 +109,7 @@ class Getsignup(BaseModel):
     roles: List[RoleSchema] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Update_user(BaseModel):
@@ -122,7 +122,7 @@ class Update_user(BaseModel):
     )
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class login(BaseModel):
@@ -136,7 +136,7 @@ class Reubrands(BaseModel):
     _name = validator("name", allow_reuse=True)(should_not_contains_special_char)
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Getbrands(BaseModel):
@@ -145,7 +145,7 @@ class Getbrands(BaseModel):
     active: Optional[bool]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Reuproducts(BaseModel):
@@ -153,7 +153,7 @@ class Reuproducts(BaseModel):
     active: bool
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Getproducts(BaseModel):
@@ -164,7 +164,7 @@ class Getproducts(BaseModel):
     product_image: Optional[str]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Getmodule(BaseModel):
@@ -172,7 +172,7 @@ class Getmodule(BaseModel):
     name: Optional[str]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Getroles(BaseModel):
@@ -181,7 +181,7 @@ class Getroles(BaseModel):
     active: Optional[bool]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Getuser_role(BaseModel):
@@ -190,7 +190,7 @@ class Getuser_role(BaseModel):
     role_id: Optional[int]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Reset_password(BaseModel):
@@ -199,7 +199,7 @@ class Reset_password(BaseModel):
     confirm_new_password: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Getrole_permission(BaseModel):
@@ -209,7 +209,7 @@ class Getrole_permission(BaseModel):
     role_id: Optional[int]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Change_permissionm(BaseModel):
@@ -217,7 +217,7 @@ class Change_permissionm(BaseModel):
     access_type: AccessName
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Getuser_permission(BaseModel):
@@ -226,7 +226,7 @@ class Getuser_permission(BaseModel):
     module_name: Optional[str]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Reqlogin(BaseModel):
@@ -236,14 +236,14 @@ class Reqlogin(BaseModel):
     validate_email = validator("email", allow_reuse=True)(validate_emails)
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Getlogin(BaseModel):
     token: Optional[str]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class Changepassword(BaseModel):
@@ -252,7 +252,7 @@ class Changepassword(BaseModel):
     confirm_new_password: str
 
     class Config:
-        orm_mode = True
+        from_attributes  = True
 
 
 # Chat App
