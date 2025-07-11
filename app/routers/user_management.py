@@ -50,12 +50,12 @@ async def login(data: schemas.Reqlogin, db: Session = Depends(get_db)):
     return user_management.login(data, db)
 
 
-@router.post('/sent_email')
+@router.post('/sent_email', status_code=status.HTTP_201_CREATED)
 async def forgot_paswords(user_id: int, email: str, db: Session = Depends(get_db)):
     return await user_management.forgot_paswords_email_sent(user_id, email, db)
 
 
-@router.put('/reset-password', response_model=schemas.Getsignup)
+@router.put('/reset_password', status_code=status.HTTP_201_CREATED, response_model=schemas.Getsignup)
 async def reset_password(request: schemas.Reset_password, db: Session = Depends(get_db)):
     reset_token = user_management.check_reset_password_token(
         request.reset_password_token, db)

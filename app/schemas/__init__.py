@@ -253,3 +253,13 @@ class Changepassword(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+# Chat App
+class PromptRequest(BaseModel):
+    prompt: str
+    model: str = "llama3:latest"
+
+
+class ChatResponse(BaseModel):
+    response: str

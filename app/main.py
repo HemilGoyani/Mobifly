@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from middleware.security import check_token_valid
-from app.routers import user_management, role, modules, brands, products
+from app.routers import user_management, role, modules, brands, products, chat
 from fastapi.middleware.cors import CORSMiddleware
 from apscheduler.schedulers.background import BackgroundScheduler
 from app.utils.email_utils import send_hello_email
@@ -32,6 +32,7 @@ app.include_router(role.router)
 app.include_router(modules.router)
 app.include_router(brands.router)
 app.include_router(products.router)
+app.include_router(chat.router)
 
 # APScheduler setup
 scheduler = BackgroundScheduler()

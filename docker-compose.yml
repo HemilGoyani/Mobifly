@@ -24,7 +24,9 @@ services:
       - postgres 
     depends_on:
       - postgres
-      - redis 
+      - redis
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   redis:
     image: redis:6-alpine
 
