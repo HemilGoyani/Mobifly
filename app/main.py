@@ -2,10 +2,12 @@ from fastapi import FastAPI
 from middleware.security import check_token_valid
 from app.routers import user_management, role, modules, brands, products
 from fastapi.middleware.cors import CORSMiddleware
+from apscheduler.schedulers.background import BackgroundScheduler
+from app.utils.email_utils import send_hello_email
+
 app = FastAPI()
 
-
-app.middleware('http')(check_token_valid)
+app.middleware("http")(check_token_valid)
 
 
 @app.get("/")
@@ -30,3 +32,23 @@ app.include_router(role.router)
 app.include_router(modules.router)
 app.include_router(brands.router)
 app.include_router(products.router)
+
+# APScheduler setup
+scheduler = BackgroundScheduler()
+
+
+def scheduled_email_job():
+    send_hello_email("hemil.goyani@mobifly.tech")
+
+
+@app.on_event("startup")
+def start_scheduler():
+    # Call every 1 minutes
+    # scheduler.add_job(scheduled_email_job, trigger="interval", minutes=1)
+    scheduler.add_job(scheduled_email_job, trigger="cron", hour=11, minute=0)
+    scheduler.start()
+
+
+@app.on_event("shutdown")
+def shutdown_scheduler():
+    scheduler.shutdown()
