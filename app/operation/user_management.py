@@ -8,6 +8,8 @@ import utils.email
 from app.authentication import generate_token
 from app.util import get_data, get_permission, commit_data, delete_data, check_role
 from sqlalchemy import text
+from app.utils.logging_config import logger
+
 
 get_db = db.get_db
 module_name = "Usermanagement"
@@ -135,22 +137,25 @@ def remove(user_id, db):
 
 
 def login(data, db):
-
-    hash_password = hashlib.md5(data.password.encode())
-    user = (
-        db.query(Usersignup)
-        .filter(
-            Usersignup.email == data.email,
-            Usersignup.password == hash_password.hexdigest(),
+    try:
+        hash_password = hashlib.md5(data.password.encode())
+        user = (
+            db.query(Usersignup)
+            .filter(
+                Usersignup.email == data.email,
+                Usersignup.password == hash_password.hexdigest(),
+            )
+            .first()
         )
-        .first()
-    )
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="email and password not found"
-        )
-    return generate_token(data.email)
-
+        if not user:
+            logger.warning(f"Login failed for email: {data.email}")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="email and password not found"
+            )
+        return generate_token(data.email)
+    except Exception as e:
+        logger.error(f"Login error at /user_management/signin: {e}")
+        raise
 
 async def forgot_paswords_email_sent(user_id, email, db):
     # check user exist or not
