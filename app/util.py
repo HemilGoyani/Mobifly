@@ -7,7 +7,12 @@ from app import models
 import jwt
 from app.authentication import SECRET_KEY, SECURITY_ALGORITHM
 from fastapi.responses import JSONResponse
+from app.utils.redis_client import redis_client
+import redis.asyncio as redis
+from functools import wraps
+from app.utils.logging_config import logger
 
+import json
 
 # common fuction permission access or not
 def module_permission(request, db, module_name):
@@ -102,3 +107,27 @@ def has_permission(request, db, module_name, access_type):
 
 def check_data(model, name, db):
     return db.query(model).filter(model.name == name).first()
+
+
+def cache(key: str, expire: int = 60):
+    def decorator(func):
+        @wraps(func)
+        async def wrapper(*args, **kwargs):
+            try:
+                cached = await redis_client.get(key)
+                if cached:
+                    logger.info(f"Cache hit for key: {key}")
+                    return json.loads(cached)
+
+                result = func(*args, **kwargs)
+
+                # Serialize only JSON-serializable data
+                await redis_client.set(key, json.dumps(result), ex=expire)
+                logger.info(f"Cache set for key: {key}")
+                return result
+            except Exception as e:
+                logger.error(f"Redis cache error on {key}: {e}")
+                return func(*args, **kwargs)
+
+        return wrapper
+    return decorator

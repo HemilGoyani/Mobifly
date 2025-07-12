@@ -9,6 +9,7 @@ from app.authentication import generate_token
 from app.util import get_data, get_permission, commit_data, delete_data, check_role
 from sqlalchemy import text
 from app.utils.logging_config import logger
+from app.util import cache
 
 
 get_db = db.get_db
@@ -50,6 +51,7 @@ def create_users(user, db):
     return create_user
 
 
+@cache("all_users", expire=60)
 def getall_users(db):
     user = db.query(Usersignup).all()
     if not user:

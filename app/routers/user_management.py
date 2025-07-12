@@ -23,7 +23,7 @@ async def create_users(request: Request, user: schemas.Reqsignup, db: Session = 
 async def getall_users(request: Request, db: Session = Depends(get_db)):
     Depends(has_permission(request, db, module_name, [
             AccessName.READ_WRITE, AccessName.READ]))
-    return user_management.getall_users(db)
+    return await user_management.getall_users(db)
 
 
 @router.get('/{user_id}', response_model=schemas.Getsignup)
