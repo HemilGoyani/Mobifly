@@ -6,6 +6,7 @@ from typing import List
 from app.operation import user_management
 from app.util import has_permission
 from app.models import AccessName
+from app.utils.rate_limit import limiter 
 
 get_db = db.get_db
 
@@ -17,8 +18,8 @@ router = APIRouter(prefix='/user_management', tags=['Users'])
 async def create_users(request: Request, user: schemas.Reqsignup, db: Session = Depends(get_db)):
     return user_management.create_users(user, db)
 
-
-@router.get('/getall_users', response_model=List[schemas.Getsignup], status_code=status.HTTP_200_OK)
+@router.get('/getall_users', response_model=List[schemas.Getsignup])
+@limiter.limit("3/minute")
 async def getall_users(request: Request, db: Session = Depends(get_db)):
     Depends(has_permission(request, db, module_name, [
             AccessName.READ_WRITE, AccessName.READ]))

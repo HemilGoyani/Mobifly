@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 # install python dependencies
 COPY ./requirements.txt .
 
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt --no-dependencies
 
 # add app
 COPY . .
