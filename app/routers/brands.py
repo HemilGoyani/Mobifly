@@ -5,7 +5,7 @@ from sqlalchemy.orm.session import Session
 from app.operation import brands
 from typing import List
 from app.database import db
-from app.util import module_permission,has_permission
+from app.util import has_permission
 
 module_name = 'Brand'
 
