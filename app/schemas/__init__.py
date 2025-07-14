@@ -131,7 +131,7 @@ class login(BaseModel):
 
 
 class Reubrands(BaseModel):
-    name: Optional[str]
+    name: Optional[str] = None
     active: Optional[bool]
     _name = validator("name", allow_reuse=True)(should_not_contains_special_char)
 
