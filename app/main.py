@@ -7,8 +7,25 @@ from middleware.security import check_token_valid
 from app.routers import user_management, role, modules, brands, products, chat
 from app.utils.email_utils import send_hello_email
 from app.utils.logging_config import logger
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+from slowapi.middleware import SlowAPIMiddleware
+from slowapi.errors import RateLimitExceeded
 
 app = FastAPI()
+
+# Initialize Limiter
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+app.add_middleware(SlowAPIMiddleware)
+
+# Exception handler for rate limit
+@app.exception_handler(RateLimitExceeded)
+async def rate_limit_exceeded_handler(request: Request, exc: RateLimitExceeded):
+    return JSONResponse(
+        status_code=429,
+        content={"detail": "Rate limit exceeded. Try again later."},
+    )
 
 # Apply token validation middleware
 app.middleware("http")(check_token_valid)
